@@ -25,17 +25,37 @@ targets:
       path: Sources/TinyTask/Info.plist
       properties:
         CFBundleDocumentTypes:
-          - CFBundleTypeName: Task List
+          - CFBundleTypeName: Todo List
+            CFBundleTypeRole: Editor
+            LSHandlerRank: Default
+            LSItemContentTypes:
+              - com.tinytask.todo
+            CFBundleTypeExtensions:
+              - todo
+          - CFBundleTypeName: Markdown Document
+            CFBundleTypeRole: Editor
+            LSHandlerRank: Alternate
+            LSItemContentTypes:
+              - net.daringfireball.markdown
+            CFBundleTypeExtensions:
+              - md
+          - CFBundleTypeName: Plain Text
             CFBundleTypeRole: Editor
             LSHandlerRank: Alternate
             LSItemContentTypes:
               - public.plain-text
             CFBundleTypeExtensions:
-              - md
               - txt
               - text
-              - todo
         LSApplicationCategoryType: public.app-category.productivity
+        UTImportedTypeDeclarations:
+          - UTTypeIdentifier: com.tinytask.todo
+            UTTypeDescription: Todo List
+            UTTypeConformsTo:
+              - public.plain-text
+            UTTypeTagSpecification:
+              public.filename-extension:
+                - todo
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.tinytask.app
