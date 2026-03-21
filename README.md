@@ -5,6 +5,8 @@ A minimal, fast task manager for macOS.
 ![macOS](https://img.shields.io/badge/macOS-26%2B-blue)
 ![Swift](https://img.shields.io/badge/Swift-5.9-orange)
 
+![TinyTask screenshot](screenshot.png)
+
 ## Features
 
 - **Plain-text tasks** — one task per line, stored as `.md`, `.txt`, or `.todo` files
