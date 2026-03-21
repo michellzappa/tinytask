@@ -33,6 +33,8 @@ struct TinyTaskApp: App {
                     activeState?.newList()
                 }
                 .keyboardShortcut("n", modifiers: .command)
+
+                NewWindowButton()
             }
 
             CommandGroup(replacing: .appInfo) {
@@ -56,6 +58,15 @@ struct TinyTaskApp: App {
                     activeState?.save()
                 }
                 .keyboardShortcut("s", modifiers: .command)
+
+                Divider()
+
+                ExportPDFButton()
+                ExportHTMLButton()
+
+                Divider()
+
+                CopyRichTextButton()
             }
         }
     }
@@ -102,5 +113,60 @@ struct WindowContentView: View {
                 onDismiss: { state.newList() }
             )
             .background(WindowCloseGuard(state: state))
+    }
+}
+
+// MARK: - Menu Buttons
+
+struct NewWindowButton: View {
+    @Environment(\.openWindow) var openWindow
+
+    var body: some View {
+        Button("New Window") {
+            openWindow(id: "editor")
+        }
+        .keyboardShortcut("n", modifiers: [.command, .shift])
+    }
+}
+
+// MARK: - Export Buttons
+
+struct ExportPDFButton: View {
+    @FocusedValue(\.appState) private var state
+
+    var body: some View {
+        Button("Export as PDF\u{2026}") {
+            guard let state else { return }
+            let name = state.selectedFile?.lastPathComponent ?? "tasks.md"
+            ExportManager.exportPDF(html: state.exportHTML, suggestedName: name)
+        }
+        .keyboardShortcut("e", modifiers: [.command, .shift])
+        .disabled(state == nil)
+    }
+}
+
+struct ExportHTMLButton: View {
+    @FocusedValue(\.appState) private var state
+
+    var body: some View {
+        Button("Export as HTML\u{2026}") {
+            guard let state else { return }
+            let name = state.selectedFile?.lastPathComponent ?? "tasks.md"
+            ExportManager.exportHTML(html: state.exportHTML, suggestedName: name)
+        }
+        .disabled(state == nil)
+    }
+}
+
+struct CopyRichTextButton: View {
+    @FocusedValue(\.appState) private var state
+
+    var body: some View {
+        Button("Copy as Rich Text") {
+            guard let state else { return }
+            ExportManager.copyAsRichText(body: state.exportHTML)
+        }
+        .keyboardShortcut("c", modifiers: [.command, .option])
+        .disabled(state == nil)
     }
 }

@@ -36,9 +36,11 @@ struct ContentView: View {
                     ForEach(Array(state.items.enumerated()), id: \.element.id) { index, item in
                         TaskRowView(
                             item: item,
+                            index: index,
                             isSelected: state.selectedIndex == index,
                             isEditing: state.editingIndex == index,
                             editText: state.editingIndex == index ? $state.editText : .constant(""),
+                            sectionProgress: item.isSection ? state.sectionProgress(at: index) : nil,
                             onToggle: { state.toggleTask(at: index) },
                             onCommitEdit: { state.commitEdit() },
                             onCancelEdit: { state.cancelEdit() },
@@ -115,8 +117,15 @@ struct ContentView: View {
             if state.totalTasks > 0 {
                 Text("\(state.totalTasks) task\(state.totalTasks == 1 ? "" : "s")")
                 Text("\(state.doneTasks) done")
-                if state.sections > 0 {
-                    Text("\(state.sections) section\(state.sections == 1 ? "" : "s")")
+                if state.cancelledTasks > 0 {
+                    Text("\(state.cancelledTasks) cancelled")
+                }
+                if state.overdueTasks > 0 {
+                    Text("\(state.overdueTasks) overdue")
+                        .foregroundStyle(.red)
+                }
+                if state.sectionCount > 0 {
+                    Text("\(state.sectionCount) section\(state.sectionCount == 1 ? "" : "s")")
                 }
             }
             Spacer()
@@ -248,7 +257,23 @@ struct ContentView: View {
             return nil
         }
 
-        // Backspace on empty task → delete
+        // Tab → add checklist item below current task
+        if key == 48 && flags.isEmpty {
+            if let idx = state.selectedIndex, state.items[idx].isTask {
+                state.addChecklist(after: idx)
+                return nil
+            }
+        }
+
+        // Cmd+. → cancel/uncancel task
+        if flags == .command && event.charactersIgnoringModifiers == "." {
+            if let idx = state.selectedIndex {
+                state.cancelTask(at: idx)
+            }
+            return nil
+        }
+
+        // Backspace on empty task/checklist → delete
         if key == 51 && flags.isEmpty {
             if let idx = state.selectedIndex,
                !state.items[idx].isSection,
@@ -284,9 +309,11 @@ struct ContentView: View {
 
 struct TaskRowView: View {
     let item: ListItem
+    let index: Int
     let isSelected: Bool
     let isEditing: Bool
     @Binding var editText: String
+    let sectionProgress: (Int, Int)?  // (done, total) for sections
     let onToggle: () -> Void
     let onCommitEdit: () -> Void
     let onCancelEdit: () -> Void
@@ -300,8 +327,12 @@ struct TaskRowView: View {
             switch item.kind {
             case .section(let title):
                 sectionRow(title)
-            case .task(let title, let done, let date):
-                taskRow(title, done: done, completionDate: date)
+            case .task(let title, let status):
+                taskRow(title, status: status)
+            case .checklist(let title, let done):
+                checklistRow(title, done: done)
+            case .note(let text):
+                noteRow(text)
             }
         }
         .background(
@@ -336,6 +367,11 @@ struct TaskRowView: View {
                     .foregroundStyle(.primary)
             }
             Spacer()
+            if let (done, total) = sectionProgress, total > 0 {
+                Text("\(done)/\(total)")
+                    .font(.system(size: 11, design: .monospaced))
+                    .foregroundStyle(.tertiary)
+            }
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 7)
@@ -345,12 +381,23 @@ struct TaskRowView: View {
     // MARK: - Task Row
 
     @ViewBuilder
-    private func taskRow(_ title: String, done: Bool, completionDate: String?) -> some View {
+    private func taskRow(_ title: String, status: TaskStatus) -> some View {
+        let isDone = item.isDone
+        let isCancelled = item.isCancelled
+        let isOverdue = !isDone && !isCancelled && {
+            guard let due = item.dueDate else { return false }
+            let fmt = DateFormatter()
+            fmt.dateFormat = "yyyy-MM-dd"
+            return due < fmt.string(from: Date())
+        }()
+
         HStack(spacing: 8) {
             Button(action: onToggle) {
-                Image(systemName: done ? "checkmark.circle.fill" : "circle")
+                Image(systemName: isDone ? "checkmark.circle.fill" :
+                                  isCancelled ? "xmark.circle.fill" : "circle")
                     .font(.system(size: 16))
-                    .foregroundStyle(done ? .secondary : Color.accentColor)
+                    .foregroundStyle(isDone ? .secondary :
+                                    isCancelled ? .secondary : Color.accentColor)
             }
             .buttonStyle(.plain)
             .frame(width: 20)
@@ -369,11 +416,17 @@ struct TaskRowView: View {
             } else {
                 Text(title.isEmpty ? " " : title)
                     .font(.system(size: 13))
-                    .foregroundStyle(done ? .secondary : .primary)
-                    .strikethrough(done, color: .secondary)
+                    .foregroundStyle(isDone || isCancelled ? .secondary : .primary)
+                    .strikethrough(isDone || isCancelled, color: .secondary)
             }
             Spacer()
-            if done, let date = completionDate {
+            // Date tags on the right
+            if let due = item.dueDate, !isDone, !isCancelled {
+                Text(due)
+                    .font(.system(size: 11, design: .monospaced))
+                    .foregroundColor(isOverdue ? .red : .gray)
+            }
+            if isDone, let date = item.completionDate {
                 Text(date)
                     .font(.system(size: 11, design: .monospaced))
                     .foregroundStyle(.tertiary)
@@ -381,5 +434,72 @@ struct TaskRowView: View {
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 5)
+    }
+
+    // MARK: - Checklist Row
+
+    @ViewBuilder
+    private func checklistRow(_ title: String, done: Bool) -> some View {
+        HStack(spacing: 8) {
+            Button(action: onToggle) {
+                Image(systemName: done ? "checkmark.square.fill" : "square")
+                    .font(.system(size: 13))
+                    .foregroundStyle(done ? .secondary : .tertiary)
+            }
+            .buttonStyle(.plain)
+            .frame(width: 16)
+
+            if isEditing {
+                TextField("Step", text: $editText)
+                    .textFieldStyle(.plain)
+                    .font(.system(size: 12))
+                    .focused($textFieldFocused)
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                            textFieldFocused = true
+                        }
+                    }
+                    .onSubmit { onCommitEdit() }
+            } else {
+                Text(title.isEmpty ? " " : title)
+                    .font(.system(size: 12))
+                    .foregroundStyle(done ? .tertiary : .secondary)
+                    .strikethrough(done, color: .gray)
+            }
+            Spacer()
+        }
+        .padding(.leading, 44)
+        .padding(.trailing, 20)
+        .padding(.vertical, 2)
+    }
+
+    // MARK: - Note Row
+
+    @ViewBuilder
+    private func noteRow(_ text: String) -> some View {
+        HStack(spacing: 0) {
+            if isEditing {
+                TextField("Note", text: $editText)
+                    .textFieldStyle(.plain)
+                    .font(.system(size: 12))
+                    .foregroundStyle(.secondary)
+                    .focused($textFieldFocused)
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                            textFieldFocused = true
+                        }
+                    }
+                    .onSubmit { onCommitEdit() }
+            } else {
+                Text(text.isEmpty ? " " : text)
+                    .font(.system(size: 12))
+                    .foregroundStyle(.tertiary)
+                    .italic()
+            }
+            Spacer()
+        }
+        .padding(.leading, 48)
+        .padding(.trailing, 20)
+        .padding(.vertical, 2)
     }
 }
