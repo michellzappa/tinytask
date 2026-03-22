@@ -44,6 +44,19 @@ struct TinyTaskApp: App {
                 Button("Welcome to TinyTask") {
                     NotificationCenter.default.post(name: .showWelcome, object: nil)
                 }
+                Divider()
+                Button("Feedback\u{2026}") {
+                    NSWorkspace.shared.open(URL(string: "https://tinysuite.app/support.html")!)
+                }
+                Button("TinySuite Website") {
+                    NSWorkspace.shared.open(URL(string: "https://tinysuite.app")!)
+                }
+            }
+
+            CommandGroup(replacing: .help) {
+                Button("TinyTask on GitHub") {
+                    NSWorkspace.shared.open(URL(string: "https://github.com/michellzappa/tinytask")!)
+                }
             }
 
             CommandGroup(after: .newItem) {
@@ -51,6 +64,10 @@ struct TinyTaskApp: App {
                     activeState?.openFile()
                 }
                 .keyboardShortcut("o", modifiers: .command)
+
+                RecentFilesMenu { url in
+                    activeState?.selectFile(url)
+                }
 
                 Divider()
 
@@ -103,13 +120,14 @@ struct WindowContentView: View {
             .welcomeSheet(
                 isPresented: $showWelcome,
                 appName: "TinyTask",
-                subtitle: "A structured task editor",
+                subtitle: "A minimal, fast task manager for macOS.",
                 features: [
                     ("checklist", "Plain Text Tasks", "Your tasks live in a simple .md file you own forever."),
                     ("keyboard", "Keyboard-First", "Navigate, toggle, add, and reorder without touching the mouse."),
                     ("bolt.fill", "Auto-Save", "Changes saved automatically as you work."),
                 ],
-                onOpen: { state.openFile() },
+                onOpenFolder: { state.openFolder() },
+                onOpenFile: { state.openFile() },
                 onDismiss: { state.newList() }
             )
             .background(WindowCloseGuard(state: state))

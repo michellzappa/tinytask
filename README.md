@@ -1,6 +1,6 @@
 # TinyTask
 
-A minimal, fast task manager for macOS.
+A native macOS task manager backed by plain Markdown files. Navigate with arrow keys, check off with Space. The file is yours forever.
 
 ![macOS](https://img.shields.io/badge/macOS-26%2B-blue)
 ![Swift](https://img.shields.io/badge/Swift-5.9-orange)
