@@ -79,3 +79,9 @@ targets:
     dependencies:
       - package: TinyKit
         product: TinyKit
+
+schemes:
+  TinyTask:
+    build:
+      targets:
+        TinyTask: all
