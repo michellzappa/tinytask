@@ -1,0 +1,17 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Build TinyTask
+        run: xcodebuild clean build -project TinyTask.xcodeproj -scheme TinyTask -configuration Release -derivedDataPath /tmp/tinybuild/tinytask CODE_SIGN_IDENTITY="-"

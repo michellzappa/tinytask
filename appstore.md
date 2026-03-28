@@ -12,7 +12,7 @@
 - **Content Rights**: Does not contain third-party content
 - **Age Rating**: 4+
 
-## Version 1.1.0
+## Version 1.2.0
 
 ### Description (4000 chars max)
 
@@ -50,9 +50,9 @@ Part of TinySuite — a family of native macOS micro-tools that each do one thin
 
 tasks,todo,markdown,checklist,productivity,planner,keyboard,minimal,tinysuite,list
 
-### What's New (Version 1.1.0)
+### What's New (Version 1.2.0)
 
-Notarized release with Developer ID signing.
+Improved bookmark restore behavior and updated shared AI and file-handling infrastructure.
 
 ### Promotional Text (170 chars max, can be updated without review)
 

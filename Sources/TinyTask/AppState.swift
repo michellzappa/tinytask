@@ -509,7 +509,7 @@ final class AppState: FileState {
     // MARK: - File Bookmark Persistence
 
     private func saveFileBookmark(_ url: URL) {
-        if let data = try? url.bookmarkData(options: .withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil) {
+        if let data = try? url.bookmarkData(options: [], includingResourceValuesForKeys: nil, relativeTo: nil) {
             UserDefaults.standard.set(data, forKey: Self.fileBookmarkKey)
         }
     }
@@ -517,8 +517,7 @@ final class AppState: FileState {
     func restoreLastFile() {
         guard let data = UserDefaults.standard.data(forKey: Self.fileBookmarkKey) else { return }
         var isStale = false
-        guard let url = try? URL(resolvingBookmarkData: data, options: .withSecurityScope, bookmarkDataIsStale: &isStale) else { return }
-        guard url.startAccessingSecurityScopedResource() else { return }
+        guard let url = try? URL(resolvingBookmarkData: data, options: [], bookmarkDataIsStale: &isStale) else { return }
         if isStale { saveFileBookmark(url) }
         loadTaskFile(url)
     }
