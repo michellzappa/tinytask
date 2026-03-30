@@ -24,6 +24,8 @@ targets:
     info:
       path: Sources/TinyTask/Info.plist
       properties:
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
         CFBundleDocumentTypes:
           - CFBundleTypeName: Todo List
             CFBundleTypeRole: Editor
