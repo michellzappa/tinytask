@@ -29,6 +29,8 @@ A native macOS task manager backed by plain Markdown files. Navigate with arrow 
 ## Build
 
 ```bash
+xcodegen generate --spec project.yml
+
 xcodebuild clean build \
   -project TinyTask.xcodeproj \
   -scheme TinyTask \
@@ -36,7 +38,9 @@ xcodebuild clean build \
   -derivedDataPath /tmp/tinybuild/tinytask \
   CODE_SIGN_IDENTITY="-"
 
+rm -rf /Applications/TinyTask.app
 cp -R /tmp/tinybuild/tinytask/Build/Products/Release/TinyTask.app /Applications/
+xattr -cr /Applications/TinyTask.app
 ```
 
 ## Keyboard Shortcuts
