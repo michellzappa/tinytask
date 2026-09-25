@@ -100,7 +100,9 @@ struct WindowContentView: View {
             .navigationTitle(state.selectedFile?.lastPathComponent ?? "TinyTask")
             .focusedSceneValue(\.appState, state)
             .onAppear {
-                if !TinyAppDelegate.pendingFiles.isEmpty {
+                if let fixture = TinyRuntime.fixtureURL {
+                    state.loadTaskFile(fixture)
+                } else if !TinyAppDelegate.pendingFiles.isEmpty {
                     let files = TinyAppDelegate.pendingFiles
                     TinyAppDelegate.pendingFiles.removeAll()
                     if let url = files.first {

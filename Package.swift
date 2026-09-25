@@ -13,6 +13,13 @@ let package = Package(
             dependencies: [
                 .product(name: "TinyKit", package: "TinyKit"),
             ],
+            path: "Sources/TinyTask",
+            exclude: ["Resources", "Info.plist"],
+            swiftSettings: [.swiftLanguageMode(.v5)]
+        ),
+        .testTarget(
+            name: "TinyTaskTests",
+            dependencies: ["TinyTask"],
             swiftSettings: [.swiftLanguageMode(.v5)]
         ),
     ]

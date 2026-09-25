@@ -5,6 +5,11 @@ struct ContentView: View {
     @Bindable var state: AppState
     @State private var eventMonitor: Any?
 
+    private var uiSmokeStatus: String {
+        let fileName = state.selectedFile?.lastPathComponent ?? "no-file"
+        return "\(fileName) tasks:\(state.totalTasks) done:\(state.doneTasks)"
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             if state.selectedFile == nil {
@@ -20,6 +25,9 @@ struct ContentView: View {
             }
         }
         .background(Color(nsColor: .textBackgroundColor))
+        .overlay(alignment: .bottomTrailing) {
+            TinyUITestProbe(text: uiSmokeStatus)
+        }
         .onAppear { installKeyboardMonitor() }
         .onDisappear { removeKeyboardMonitor() }
         .onChange(of: state.content) { _, _ in

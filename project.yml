@@ -2,7 +2,7 @@ name: TinyTask
 options:
   bundleIdPrefix: com.tinytask
   deploymentTarget:
-    macOS: "15.0"
+    macOS: "26.0"
   xcodeVersion: "16.0"
 
 packages:
@@ -70,7 +70,7 @@ targets:
         INFOPLIST_KEY_LSApplicationCategoryType: "public.app-category.productivity"
         INFOPLIST_KEY_NSHumanReadableCopyright: ""
         SWIFT_VERSION: "5.9"
-        MACOSX_DEPLOYMENT_TARGET: "15.0"
+        MACOSX_DEPLOYMENT_TARGET: "26.0"
         DEVELOPMENT_TEAM: 992N457T8D
         CODE_SIGN_STYLE: Automatic
         CODE_SIGN_IDENTITY: "Apple Development"
@@ -81,9 +81,24 @@ targets:
     dependencies:
       - package: TinyKit
         product: TinyKit
+  TinyTaskUITests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources:
+      - path: UITests/TinyTaskUITests
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.tinytask.app.uitests
+        TEST_TARGET_NAME: TinyTask
+        GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - target: TinyTask
 
 schemes:
   TinyTask:
     build:
       targets:
         TinyTask: all
+    test:
+      targets:
+        - name: TinyTaskUITests

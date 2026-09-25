@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00203A78AD1DE89158BA8092 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = B4E296A290C1535FAAEFA691 /* AppIcon.icon */; };
+		1BD548EEE8CC870EE6D81C69 /* TinyTaskUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5535035234FDBCBE74018 /* TinyTaskUITests.swift */; };
 		2B86245AB5E155D84D5EA006 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120EC72B233C1D49E527BF05 /* ContentView.swift */; };
 		9DABD32DFE888D24EF713A61 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 924F660C82F8FD077002C58E /* Assets.xcassets */; };
 		9F0696913CE0D8C19FCDD391 /* TinyTaskApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D014F20FBCA355DE65E29C /* TinyTaskApp.swift */; };
@@ -15,13 +16,25 @@
 		FD01B40951DE2B577056B8F6 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B9738FA0F4498E19FC02CC /* AppState.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		285D3B95B2C23AA702E23A88 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28A23663903B059006737A6A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7E88CB7918ED686329777660;
+			remoteInfo = TinyTask;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		120EC72B233C1D49E527BF05 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		24D014F20FBCA355DE65E29C /* TinyTaskApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinyTaskApp.swift; sourceTree = "<group>"; };
 		30B9738FA0F4498E19FC02CC /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		8FD5535035234FDBCBE74018 /* TinyTaskUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinyTaskUITests.swift; sourceTree = "<group>"; };
 		924F660C82F8FD077002C58E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9F68FBDE108BAC5066F7D6F2 /* TinyTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TinyTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4E296A290C1535FAAEFA691 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = wrapper.icon; path = AppIcon.icon; sourceTree = "<group>"; };
+		B88C68FDC19A2020B358D852 /* TinyTaskUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TinyTaskUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D57BAFCB4D891288620D7086 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		DC5BF3C0E883B18142CDDE13 /* TinyKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = TinyKit; path = Packages/TinyKit; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -44,8 +57,18 @@
 				3DE9BC9C073843F4AAD4BF78 /* Packages */,
 				8056211F6C6C034850795422 /* Resources */,
 				47B049BA768239EF1E91CA8C /* TinyTask */,
+				17968A6E4F35E2A6576347DC /* TinyTaskUITests */,
 				D74C0FFA9A668DD33A16B1EA /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		17968A6E4F35E2A6576347DC /* TinyTaskUITests */ = {
+			isa = PBXGroup;
+			children = (
+				8FD5535035234FDBCBE74018 /* TinyTaskUITests.swift */,
+			);
+			name = TinyTaskUITests;
+			path = UITests/TinyTaskUITests;
 			sourceTree = "<group>";
 		};
 		3DE9BC9C073843F4AAD4BF78 /* Packages */ = {
@@ -82,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				9F68FBDE108BAC5066F7D6F2 /* TinyTask.app */,
+				B88C68FDC19A2020B358D852 /* TinyTaskUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -89,6 +113,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		6EF9025820DA3C629ADA618A /* TinyTaskUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 826BC2069E30929E9BC91D5E /* Build configuration list for PBXNativeTarget "TinyTaskUITests" */;
+			buildPhases = (
+				CEF3321198461A9EB4A43CBC /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				41130D10E7E7FF8FAB3F6BBF /* PBXTargetDependency */,
+			);
+			name = TinyTaskUITests;
+			packageProductDependencies = (
+			);
+			productName = TinyTaskUITests;
+			productReference = B88C68FDC19A2020B358D852 /* TinyTaskUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		7E88CB7918ED686329777660 /* TinyTask */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 75586C0B04EAE6E50AA6A59F /* Build configuration list for PBXNativeTarget "TinyTask" */;
@@ -118,6 +160,9 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
+					6EF9025820DA3C629ADA618A = {
+						TestTargetID = 7E88CB7918ED686329777660;
+					};
 					7E88CB7918ED686329777660 = {
 						DevelopmentTeam = 992N457T8D;
 						ProvisioningStyle = Automatic;
@@ -142,6 +187,7 @@
 			projectRoot = "";
 			targets = (
 				7E88CB7918ED686329777660 /* TinyTask */,
+				6EF9025820DA3C629ADA618A /* TinyTaskUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -169,7 +215,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CEF3321198461A9EB4A43CBC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1BD548EEE8CC870EE6D81C69 /* TinyTaskUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		41130D10E7E7FF8FAB3F6BBF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7E88CB7918ED686329777660 /* TinyTask */;
+			targetProxy = 285D3B95B2C23AA702E23A88 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		149DB0BD06032322C742BBA3 /* Debug */ = {
@@ -223,7 +285,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -280,7 +342,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -312,13 +374,30 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tinytask.app;
 				PRODUCT_NAME = TinyTask;
 				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
 				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		A26AECFC105E4D0B1520429A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tinytask.app.uitests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = TinyTask;
 			};
 			name = Release;
 		};
@@ -343,13 +422,30 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tinytask.app;
 				PRODUCT_NAME = TinyTask;
 				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
 				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		CB2443DB40010BF0F1BE863F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tinytask.app.uitests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = TinyTask;
 			};
 			name = Debug;
 		};
@@ -361,6 +457,15 @@
 			buildConfigurations = (
 				B2FB2B63BDC2EF00B56F779A /* Debug */,
 				8149C51F9CA1886129EAE95C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		826BC2069E30929E9BC91D5E /* Build configuration list for PBXNativeTarget "TinyTaskUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CB2443DB40010BF0F1BE863F /* Debug */,
+				A26AECFC105E4D0B1520429A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

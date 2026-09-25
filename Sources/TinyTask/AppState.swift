@@ -274,10 +274,10 @@ final class AppState: FileState {
 
     // MARK: - Serialize
 
-    private static let todayString: () -> String = {
+    static var todayString: () -> String = {
         let fmt = DateFormatter()
         fmt.dateFormat = "yyyy-MM-dd"
-        return { fmt.string(from: Date()) }
+        return { TinyRuntime.fixedToday ?? fmt.string(from: Date()) }
     }()
 
     func serializeItems() {
